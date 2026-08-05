@@ -1,0 +1,142 @@
+/* ===================== الصفحة التعريفية — توب تن ===================== */
+/*
+  تُحمّل **بعد** style.css وتشاركه المتغيّرات نفسها (`:root` فيه).
+  ⚠️ لا تكرّر المتغيّرات هنا: نسختان تتفرّقان عند أول تعديل لون.
+*/
+
+body.landing { display: block; }
+
+/* ------------------------------ الواجهة ------------------------------ */
+
+.lhero { position: relative; z-index: 1; padding: 58px 0 46px; text-align: center; }
+
+.kicker {
+  margin: 0 0 14px; font-size: 12.5px; font-weight: 700;
+  letter-spacing: .05em; color: var(--brand);
+}
+
+.llogo {
+  margin: 0 0 18px;
+  font-size: clamp(44px, 13vw, 78px); font-weight: 800; letter-spacing: -.03em; line-height: 1;
+}
+.llogo span {
+  background: linear-gradient(135deg, var(--brand), #FFC46B);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+
+.llede {
+  max-width: 540px; margin: 0 auto 30px;
+  font-size: clamp(15.5px, 2.6vw, 18.5px); color: var(--muted);
+}
+.llede strong { color: var(--text); font-weight: 700; }
+
+.cta {
+  display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+  min-height: 54px; padding: 0 34px;
+  background: linear-gradient(135deg, var(--brand), var(--brand-2));
+  color: var(--on-brand); font-size: 17px; font-weight: 800;
+  text-decoration: none; border-radius: 14px;
+  transition: transform .18s, filter .18s;
+}
+.cta:hover { filter: brightness(1.08); transform: translateY(-2px); }
+.cta span { transition: transform .18s; }
+.cta:hover span { transform: translateX(-4px); }   /* RTL */
+
+.lnote { margin: 16px 0 0; font-size: 13px; color: var(--muted); opacity: .85; }
+
+/* ------------------------------ الأقسام ------------------------------ */
+
+.lsec { position: relative; z-index: 1; padding: 46px 0; }
+.lsec-alt { background: rgba(19, 19, 22, .55); border-block: 1px solid var(--line-soft); }
+
+.lsec h2 { margin: 0 0 16px; font-size: clamp(21px, 4.6vw, 27px); font-weight: 800; }
+.lsec h2 .count { font-size: 15px; font-weight: 600; color: var(--muted); }
+
+.lbody { margin: 0 0 20px; max-width: 620px; font-size: 15.5px; color: var(--muted); }
+.lbody strong { color: var(--brand); font-weight: 700; }
+
+/* ------------------------------ عرض النقاط ------------------------------ */
+
+.scoredemo { max-width: 460px; }
+.demo-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.demo-list li {
+  display: flex; align-items: center; gap: 12px;
+  padding: 11px 14px; min-height: 48px;
+  background: var(--bg-2); border: 1px solid var(--line-soft); border-radius: 11px;
+}
+.d-rank {
+  display: grid; place-items: center; flex: none;
+  width: 30px; height: 30px; border-radius: 9px;
+  background: color-mix(in srgb, var(--text) 7%, transparent);
+  color: var(--muted); font-size: 13.5px; font-weight: 800;
+}
+.d-name { flex: 1; font-weight: 700; font-size: 15px; }
+.d-pts { flex: none; font-size: 13px; font-weight: 700; color: var(--muted); }
+
+/* ⚠️ التدرّج هو الرسالة: المركز المتأخّر يبرز والمبكّر يخفت، فيُفهم
+   النظام بالنظر قبل قراءة السطر. */
+.demo-list .d-hi { border-color: color-mix(in srgb, var(--brand) 42%, transparent); }
+.demo-list .d-hi .d-rank { background: color-mix(in srgb, var(--brand) 20%, transparent); color: var(--brand); }
+.demo-list .d-hi .d-pts { color: var(--brand); }
+.demo-list .d-fade { opacity: .4; min-height: 38px; }
+
+.demo-cap { margin: 12px 0 0; font-size: 12.5px; color: var(--muted); }
+
+/* ------------------------------ الخطوات ------------------------------ */
+
+.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 18px; }
+.steps li { display: flex; align-items: flex-start; gap: 15px; }
+.snum {
+  display: grid; place-items: center; flex: none;
+  width: 38px; height: 38px; border-radius: 12px;
+  background: color-mix(in srgb, var(--brand) 15%, transparent);
+  border: 1px solid color-mix(in srgb, var(--brand) 32%, transparent);
+  color: var(--brand); font-size: 16px; font-weight: 800;
+}
+.steps h3 { margin: 4px 0 4px; font-size: 16px; font-weight: 700; }
+.steps p { margin: 0; font-size: 14.5px; color: var(--muted); }
+
+/* ------------------------------ الرقائق ------------------------------ */
+
+.chips { display: flex; flex-wrap: wrap; gap: 9px; }
+.chip {
+  padding: 8px 14px; border-radius: 999px; font-size: 14px; font-weight: 600;
+  background: var(--bg-2); border: 1px solid var(--line-soft); color: var(--muted);
+}
+.chip.ok { color: var(--success); border-color: color-mix(in srgb, var(--success) 28%, transparent); }
+
+.qchips { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 9px; }
+.qchips li {
+  padding: 9px 15px; border-radius: 11px; font-size: 14px;
+  background: var(--bg-2); border: 1px solid var(--line-soft); color: var(--text);
+}
+
+/* ------------------------------ الختام ------------------------------ */
+
+.lend { position: relative; z-index: 1; padding: 56px 0 64px; text-align: center; }
+.lend h2 { margin: 0 0 8px; font-size: clamp(24px, 5.5vw, 32px); font-weight: 800; }
+.lend p { margin: 0 0 26px; color: var(--muted); font-size: 15.5px; }
+
+.lfoot {
+  position: relative; z-index: 1;
+  padding: 22px 0; border-top: 1px solid var(--line-soft);
+  font-size: 13.5px; color: var(--muted);
+}
+.lfoot .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+/* ⚠️ ≥ 44px: رابط الفوتر كان 23px — نصّ صغير في زاوية الشاشة هو أصعب ما
+   يُصاب بالإبهام، والحشو وحده يكفي بلا تغيير مظهره. */
+.lfoot a {
+  display: inline-flex; align-items: center; min-height: 44px;
+  color: var(--muted); text-decoration: none;
+}
+.lfoot a:hover { color: var(--brand); }
+.lfoot strong { color: var(--text); }
+
+/* ------------------------------ الجوال ------------------------------ */
+
+@media (max-width: 560px) {
+  .lhero { padding: 40px 0 34px; }
+  .lsec { padding: 36px 0; }
+  .cta { width: 100%; }
+  .lfoot .wrap { flex-direction: column; gap: 6px; text-align: center; }
+}

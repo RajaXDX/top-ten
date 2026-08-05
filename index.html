@@ -5,110 +5,166 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>توب تن — لعبة قوائم العشرة</title>
 
-<meta name="description" content="توب تن: لعبة عربية بين شخصين — اذكر ما تقدر من قائمة العشرة، والمركز المتأخّر يعطي نقاطاً أكثر.">
+<meta name="description" content="توب تن: لعبة عربية بين شخصين. اذكر ما تقدر من قائمة العشرة — والمركز العاشر يعطي عشر نقاط لأنه أصعب تذكّراً. بلا تحميل ولا حساب.">
 <meta name="theme-color" content="#0D0D0F">
 
 <meta property="og:type" content="website">
 <meta property="og:title" content="توب تن — لعبة قوائم العشرة">
 <meta property="og:description" content="دور دور بين شخصين: اذكر ما تقدر من القائمة، والمركز 10 يعطي 10 نقاط.">
+<meta property="og:url" content="https://rajaxdx.github.io/top-ten/">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="css/style.css?v=2">
+<link rel="stylesheet" href="css/style.css?v=4">
+<link rel="stylesheet" href="css/landing.css?v=4">
 </head>
-<body>
+<body class="landing">
 
 <div class="glow glow-a" aria-hidden="true"></div>
 <div class="glow glow-b" aria-hidden="true"></div>
 
-<!-- ============================ الإعداد ============================ -->
-<section id="screen-setup" class="screen active">
-  <div class="wrap narrow">
-    <h1 class="logo">توب <span>تن</span></h1>
-    <p class="tag">دور دور بين شخصين — اذكر ما تقدر من قائمة العشرة</p>
-
-    <div class="rules">
-      <div class="rule"><strong>10</strong> المركز العاشر يعطي <b>10 نقاط</b></div>
-      <div class="rule"><strong>1</strong> والمركز الأول يعطي <b>نقطة واحدة</b></div>
-      <p class="rules-why">المراكز المتأخّرة أصعب تذكّراً — فتستحقّ أكثر.</p>
-    </div>
-
-    <form class="setup" onsubmit="return false">
-      <div class="row2">
-        <label>اللاعب الأول
-          <input id="p1Name" placeholder="الاسم" autocomplete="off">
-        </label>
-        <label>اللاعب الثاني
-          <input id="p2Name" placeholder="الاسم" autocomplete="off">
-        </label>
-      </div>
-
-      <label>السؤال <small>(<span id="qCount">—</span> سؤالاً)</small>
-        <select id="questionPick"></select>
-      </label>
-
-      <label>وقت الدور
-        <select id="turnSeconds">
-          <option value="0">بلا وقت</option>
-          <option value="15">15 ثانية</option>
-          <option value="30" selected>30 ثانية</option>
-          <option value="45">45 ثانية</option>
-        </select>
-      </label>
-
-      <button id="startBtn" class="primary big" type="button">ابدأ اللعب</button>
-    </form>
-  </div>
-</section>
-
-<!-- ============================ اللعب ============================ -->
-<section id="screen-game" class="screen">
+<!-- ============================ الواجهة ============================ -->
+<header class="lhero">
   <div class="wrap">
-    <header class="ghead">
-      <div>
-        <h2 id="qTitle"></h2>
-        <p id="qNote" class="qnote"></p>
-      </div>
-      <div class="ghead-side">
-        <span id="progress" class="progress">0 / 10</span>
-        <span id="timer" class="timer" hidden>30</span>
-      </div>
-    </header>
-
-    <div id="scoreboard" class="scoreboard"></div>
-
-    <ol id="slots" class="slots"></ol>
-
-    <form id="answerForm" class="answer">
-      <input id="answerInput" placeholder="اكتب إجابتك…" autocomplete="off" autocapitalize="off" spellcheck="false">
-      <button class="primary" type="submit">جاوب</button>
-      <button id="skipBtn" class="ghost" type="button">مرّر</button>
-    </form>
-
-    <button id="endRoundBtn" class="link-btn" type="button">إنهاء الجولة</button>
+    <p class="kicker">لعبة عربية · شخصان · بلا تحميل</p>
+    <h1 class="llogo">توب <span>تن</span></h1>
+    <p class="llede">
+      قائمة من عشرة مرتّبة، وأنتما تتناوبان على ذكر ما تعرفانه.
+      <strong>المركز العاشر يعطي عشر نقاط</strong> — لأن آخر القائمة أصعب
+      تذكّراً من أوّلها.
+    </p>
+    <a class="cta" href="play.html">العب الآن <span aria-hidden="true">←</span></a>
+    <p class="lnote">تفتح من المتصفح مباشرة · ما تحتاج حساباً ولا إنترنت أثناء اللعب</p>
   </div>
-</section>
+</header>
 
-<!-- ============================ النهاية ============================ -->
-<section id="screen-end" class="screen">
-  <div class="wrap narrow">
-    <h2 id="endTitle" class="end-title"></h2>
-    <p id="endReason" class="end-reason"></p>
-    <div id="endScores" class="end-scores"></div>
-    <div id="endMissed" class="end-missed"></div>
-    <div class="end-actions">
-      <button id="againBtn" class="primary" type="button">جولة ثانية</button>
-      <button id="setupBtn" class="ghost" type="button">تغيير الإعدادات</button>
+<main>
+
+  <!-- ============================ الفكرة ============================ -->
+  <section class="lsec">
+    <div class="wrap">
+      <h2>الفكرة</h2>
+      <p class="lbody">
+        أغلب ألعاب الأسئلة تعطيك خيارات وتنتظر منك أن تختار. توب تن ما تعطيك
+        شيئاً — تسألك «أكبر عشر دول بالمساحة» وتسكت. تكتب ما يحضرك، وكل ما
+        غُصت أعمق في القائمة زادت نقاطك. من يعرف المركز التاسع يستحقّ أكثر
+        ممّن يعرف الأول، لأن الأول يعرفه الجميع.
+      </p>
     </div>
+  </section>
+
+  <!-- ============================ النقاط ============================ -->
+  <section class="lsec lsec-alt">
+    <div class="wrap">
+      <h2>كيف تُحسب النقاط</h2>
+      <p class="lbody">النقاط = رقم المركز. والقائمة كاملة تساوي <strong>55 نقطة</strong>.</p>
+
+      <div class="scoredemo">
+        <ol class="demo-list">
+          <li><span class="d-rank">1</span><span class="d-name">روسيا</span><span class="d-pts">نقطة واحدة</span></li>
+          <li><span class="d-rank">2</span><span class="d-name">كندا</span><span class="d-pts">نقطتان</span></li>
+          <li class="d-fade"><span class="d-rank">…</span><span class="d-name">…</span><span class="d-pts"></span></li>
+          <li class="d-hi"><span class="d-rank">9</span><span class="d-name">كازاخستان</span><span class="d-pts">9 نقاط</span></li>
+          <li class="d-hi"><span class="d-rank">10</span><span class="d-name">الجزائر</span><span class="d-pts">10 نقاط</span></li>
+        </ol>
+        <p class="demo-cap">من «أكبر 10 دول في العالم بالمساحة»</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ كيف تلعب ============================ -->
+  <section class="lsec">
+    <div class="wrap">
+      <h2>كيف تلعب</h2>
+      <ol class="steps">
+        <li>
+          <span class="snum">1</span>
+          <div>
+            <h3>اكتبوا أسماءكما واختاروا سؤالاً</h3>
+            <p>أو اتركوه عشوائياً. وتقدرون تحطّون وقتاً للدور من 15 إلى 45 ثانية.</p>
+          </div>
+        </li>
+        <li>
+          <span class="snum">2</span>
+          <div>
+            <h3>دور دور — اكتب ما تتذكّره</h3>
+            <p>أصبت: يُكشف المركز وتاخذ نقاطه. أخطأت: ينتقل الدور. الإجابة المكرّرة
+               ما تكلّفك دورك.</p>
+          </div>
+        </li>
+        <li>
+          <span class="snum">3</span>
+          <div>
+            <h3>تنتهي الجولة بالقائمة أو بالتمرير</h3>
+            <p>إمّا تُكشف العشرة كلها، أو يمرّر اللاعبان دورهما تباعاً — وتُعرض
+               الإجابات التي فاتتكما.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============================ الكتابة ============================ -->
+  <section class="lsec lsec-alt">
+    <div class="wrap">
+      <h2>تكتب براحتك</h2>
+      <p class="lbody">
+        ما يهمّ الإملاء الدقيق. «امريكا» و«أمريكا» و«الولايات المتحدة» كلها
+        تُقبل، والهمزات والتاء المربوطة والتشكيل ما تفرق. اكتب كما تنطق.
+      </p>
+      <div class="chips">
+        <span class="chip ok">امريكا ✓</span>
+        <span class="chip ok">أمريكا ✓</span>
+        <span class="chip ok">الولايات المتحدة ✓</span>
+        <span class="chip ok">USA ✓</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ الأسئلة ============================ -->
+  <section class="lsec">
+    <div class="wrap">
+      <h2>الأسئلة <span id="qTotal" class="count"></span></h2>
+      <ul id="qList" class="qchips"></ul>
+    </div>
+  </section>
+
+  <!-- ============================ الختام ============================ -->
+  <section class="lend">
+    <div class="wrap">
+      <h2>جاهز؟</h2>
+      <p>أمسك جوالك، واقعد قبال واحد، وشوفوا مين يغوص أعمق.</p>
+      <a class="cta" href="play.html">ابدأ الجولة <span aria-hidden="true">←</span></a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="lfoot">
+  <div class="wrap">
+    <a href="https://rajaxdx.github.io/next-level/">جزء من <strong>Next Level</strong></a>
+    <span>© <span id="year">2026</span></span>
   </div>
-</section>
+</footer>
 
-<footer class="foot">© <span id="year">2026</span> Next Level</footer>
-<div id="toasts" class="toasts" aria-live="polite"></div>
+<script>
+// قائمة الأسئلة تُقرأ من بنك اللعبة نفسه — فلا تفترق الصفحة عن اللعبة
+fetch('data/questions.json')
+  .then(r => r.json())
+  .then(d => {
+    const qs = d.questions || [];
+    document.getElementById('qTotal').textContent = `(${qs.length})`;
+    document.getElementById('qList').innerHTML = qs
+      .map(q => `<li>${q.title.replace(/[<>&]/g, '')}</li>`).join('');
+  })
+  .catch(() => {
+    // تعذّر التحميل: نخفي القسم بدل عرض قائمة فارغة بلا تفسير
+    document.getElementById('qList').closest('.lsec').hidden = true;
+  });
 
-<script src="js/matching.js?v=2"></script>
-<script src="js/game.js?v=2"></script>
+document.getElementById('year').textContent = new Date().getFullYear();
+</script>
 </body>
 </html>
