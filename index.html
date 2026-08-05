@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>توب تن — لعبة قوائم العشرة</title>
+
+<meta name="description" content="توب تن: لعبة عربية بين شخصين — اذكر ما تقدر من قائمة العشرة، والمركز المتأخّر يعطي نقاطاً أكثر.">
+<meta name="theme-color" content="#0D0D0F">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="توب تن — لعبة قوائم العشرة">
+<meta property="og:description" content="دور دور بين شخصين: اذكر ما تقدر من القائمة، والمركز 10 يعطي 10 نقاط.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/style.css?v=2">
+</head>
+<body>
+
+<div class="glow glow-a" aria-hidden="true"></div>
+<div class="glow glow-b" aria-hidden="true"></div>
+
+<!-- ============================ الإعداد ============================ -->
+<section id="screen-setup" class="screen active">
+  <div class="wrap narrow">
+    <h1 class="logo">توب <span>تن</span></h1>
+    <p class="tag">دور دور بين شخصين — اذكر ما تقدر من قائمة العشرة</p>
+
+    <div class="rules">
+      <div class="rule"><strong>10</strong> المركز العاشر يعطي <b>10 نقاط</b></div>
+      <div class="rule"><strong>1</strong> والمركز الأول يعطي <b>نقطة واحدة</b></div>
+      <p class="rules-why">المراكز المتأخّرة أصعب تذكّراً — فتستحقّ أكثر.</p>
+    </div>
+
+    <form class="setup" onsubmit="return false">
+      <div class="row2">
+        <label>اللاعب الأول
+          <input id="p1Name" placeholder="الاسم" autocomplete="off">
+        </label>
+        <label>اللاعب الثاني
+          <input id="p2Name" placeholder="الاسم" autocomplete="off">
+        </label>
+      </div>
+
+      <label>السؤال <small>(<span id="qCount">—</span> سؤالاً)</small>
+        <select id="questionPick"></select>
+      </label>
+
+      <label>وقت الدور
+        <select id="turnSeconds">
+          <option value="0">بلا وقت</option>
+          <option value="15">15 ثانية</option>
+          <option value="30" selected>30 ثانية</option>
+          <option value="45">45 ثانية</option>
+        </select>
+      </label>
+
+      <button id="startBtn" class="primary big" type="button">ابدأ اللعب</button>
+    </form>
+  </div>
+</section>
+
+<!-- ============================ اللعب ============================ -->
+<section id="screen-game" class="screen">
+  <div class="wrap">
+    <header class="ghead">
+      <div>
+        <h2 id="qTitle"></h2>
+        <p id="qNote" class="qnote"></p>
+      </div>
+      <div class="ghead-side">
+        <span id="progress" class="progress">0 / 10</span>
+        <span id="timer" class="timer" hidden>30</span>
+      </div>
+    </header>
+
+    <div id="scoreboard" class="scoreboard"></div>
+
+    <ol id="slots" class="slots"></ol>
+
+    <form id="answerForm" class="answer">
+      <input id="answerInput" placeholder="اكتب إجابتك…" autocomplete="off" autocapitalize="off" spellcheck="false">
+      <button class="primary" type="submit">جاوب</button>
+      <button id="skipBtn" class="ghost" type="button">مرّر</button>
+    </form>
+
+    <button id="endRoundBtn" class="link-btn" type="button">إنهاء الجولة</button>
+  </div>
+</section>
+
+<!-- ============================ النهاية ============================ -->
+<section id="screen-end" class="screen">
+  <div class="wrap narrow">
+    <h2 id="endTitle" class="end-title"></h2>
+    <p id="endReason" class="end-reason"></p>
+    <div id="endScores" class="end-scores"></div>
+    <div id="endMissed" class="end-missed"></div>
+    <div class="end-actions">
+      <button id="againBtn" class="primary" type="button">جولة ثانية</button>
+      <button id="setupBtn" class="ghost" type="button">تغيير الإعدادات</button>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">© <span id="year">2026</span> Next Level</footer>
+<div id="toasts" class="toasts" aria-live="polite"></div>
+
+<script src="js/matching.js?v=2"></script>
+<script src="js/game.js?v=2"></script>
+</body>
+</html>
