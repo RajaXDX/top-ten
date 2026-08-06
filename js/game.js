@@ -64,7 +64,7 @@ const netError = code => NET_ERRORS[code] || 'صار خطأ غير متوقّع'
 
 async function loadQuestions() {
   try {
-    const res = await fetch(`data/questions.json?v=5`);
+    const res = await fetch(`data/questions.json?v=6`);
     QUESTIONS = (await res.json()).questions || [];
   } catch (e) {
     console.error('تعذّر تحميل الأسئلة:', e);

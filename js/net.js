@@ -20,14 +20,17 @@ const TT_TOKEN_KEY   = 'tt_device_token';
 const TT_SESSION_KEY = 'tt_session';       // آخر روم — للعودة التلقائية
 const TT_NAME_KEY    = 'tt_player_name';
 
-const POLL_MS      = 4000;   // شبكة الأمان
-const HEARTBEAT_MS = 20000;  // إثبات الحضور (الغياب بعد 45 ثانية في SQL)
+/*
+  ⚠️ استطلاع واحد لا اثنان. كان هنا مؤقّت ثانٍ باسم «النبضة» كل 20 ثانية
+  ينادي `netPoll` نفسها — و`tt_snapshot` **تكتب `seen` أصلاً**، فالاستطلاع
+  كل 4 ثوانٍ نبضة كافية. المؤقّت الثاني كان يضاعف النداء بلا أي أثر.
+*/
+const POLL_MS = 4000;
 
 let netRoom     = null;   // آخر صورة للروم من الخادم
 let netSeat     = null;   // مقعدك: 0 أو 1
 let netChannel  = null;
 let netPollTimer = null;
-let netBeatTimer = null;
 let netVersion  = 0;
 
 /* دالة يضبطها game.js لتصلها كل صورة جديدة للروم */
@@ -117,6 +120,7 @@ async function netJoinRoom(code, name) {
   adoptRoom(data);
   rememberSession(data.code);
   await netConnect(data.code);
+  netPingRoster();   // ليرى المضيف من دخل فوراً لا بعد دورة استطلاع
   return data;
 }
 
@@ -130,12 +134,18 @@ async function netResume(code) {
   return data;
 }
 
+/*
+  ⚠️ الترتيب مقصود: نخرج من الجدول **ثم** نُشعر، ثم نقطع الاتصال. لو
+  أشعرنا أولاً لاستعلم الطرف الآخر فوجدنا ما زلنا في الروم، ولو قطعنا
+  الاتصال أولاً لما وصلت الإشارة أصلاً.
+*/
 async function netLeave() {
   const code = netRoom?.code;
-  netDisconnect();
   forgetSession();
-  netRoom = null; netSeat = null; netVersion = 0;
   if (code) await rpc('tt_leave', { p_code: code, p_token: deviceToken() });
+  netPingRoster();
+  netDisconnect();
+  netRoom = null; netSeat = null; netVersion = 0;
 }
 
 /* ------------------------------ الاتصال ------------------------------ */
@@ -155,17 +165,27 @@ async function netConnect(code) {
     onRoomUpdate(netRoom);
   });
 
+  /*
+    تغيّر في قائمة اللاعبين (دخول أو خروج). لا نبثّ القائمة نفسها — البثّ
+    غير موثوق للحقائق، ومن يبثّها قد يكذب. نبثّ **إشارة** والطرف الآخر
+    يسأل الخادم بنفسه.
+    ⚠️ بلا هذا كان المضيف ينتظر دورة الاستطلاع كاملة ليرى من دخل، فيبقى
+    زر البدء معطّلاً أمامه وصاحبه داخلٌ فعلاً.
+  */
+  netChannel.on('broadcast', { event: 'roster' }, () => netPoll(true));
+
   await netChannel.subscribe();
 
   clearInterval(netPollTimer);
   netPollTimer = setInterval(netPoll, POLL_MS);
-  clearInterval(netBeatTimer);
-  netBeatTimer = setInterval(netPoll, HEARTBEAT_MS);
+}
+
+function netPingRoster() {
+  netChannel?.send({ type: 'broadcast', event: 'roster', payload: { at: Date.now() } });
 }
 
 function netDisconnect() {
   clearInterval(netPollTimer); netPollTimer = null;
-  clearInterval(netBeatTimer); netBeatTimer = null;
   if (netChannel) { supa?.removeChannel(netChannel); netChannel = null; }
 }
 
@@ -175,8 +195,9 @@ function netDisconnect() {
   ⚠️ لا نستطلع والصفحة في الخلفية: متصفح الجوال يجمّد المؤقتات أصلاً،
   والنداءات المتراكمة تنفجر دفعة واحدة عند العودة.
 */
-async function netPoll() {
-  if (!netRoom?.code || document.hidden) return;
+async function netPoll(force = false) {
+  if (!netRoom?.code) return;
+  if (document.hidden && force !== true) return;
   const data = await rpc('tt_snapshot', { p_code: netRoom.code, p_token: deviceToken() });
   if (data.error) {
     if (data.error === 'not_found' || data.error === 'not_member') {

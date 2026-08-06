@@ -10,19 +10,19 @@
   الحاليّة — وهو أسوأ من انقطاع صريح.
 */
 
-const VERSION = 'tt-v5';
+const VERSION = 'tt-v6';
 const SHELL = [
   './',
   'index.html',
   'play.html',
   'manifest.json',
-  'css/style.css?v=5',
-  'css/landing.css?v=5',
-  'js/matching.js?v=5',
-  'js/net.js?v=5',
-  'js/game.js?v=5',
-  'js/supabase-config.js?v=5',
-  'data/questions.json?v=5',
+  'css/style.css?v=6',
+  'css/landing.css?v=6',
+  'js/matching.js?v=6',
+  'js/net.js?v=6',
+  'js/game.js?v=6',
+  'js/supabase-config.js?v=6',
+  'data/questions.json?v=6',
   'assets/icon.svg'
 ];
 
