@@ -64,14 +64,14 @@ const netError = code => NET_ERRORS[code] || 'صار خطأ غير متوقّع'
 
 async function loadQuestions() {
   try {
-    const res = await fetch(`data/questions.json?v=6`);
+    const res = await fetch(`data/questions.json?v=7`);
     QUESTIONS = (await res.json()).questions || [];
   } catch (e) {
     console.error('تعذّر تحميل الأسئلة:', e);
     QUESTIONS = [];
   }
 
-  // مجموعات حسب الموضوع: 42 قائمة في لائحة واحدة مسطّحة يصعب تصفّحها
+  // مجموعات حسب الموضوع: 61 قائمة في لائحة واحدة مسطّحة يصعب تصفّحها
   const sel = $('questionPick');
   const topics = [...new Set(QUESTIONS.map(q => q.topic || 'أخرى'))];
   sel.innerHTML = '<option value="">🎲 قائمة عشوائية</option>' +
