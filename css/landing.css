@@ -111,6 +111,14 @@ body.landing { display: block; }
   background: var(--bg-2); border: 1px solid var(--line-soft); color: var(--text);
 }
 
+/* عنوان الموضوع يكسر السطر بنفسه (flex-basis: 100%) فتبقى قوائمه تحته */
+.qchips li.qtopic {
+  flex-basis: 100%; margin-top: 10px; padding: 0;
+  background: none; border: 0; color: var(--brand);
+  font-size: 13px; font-weight: 800; letter-spacing: .02em;
+}
+.qchips li.qtopic:first-child { margin-top: 0; }
+
 /* ------------------------------ الختام ------------------------------ */
 
 .lend { position: relative; z-index: 1; padding: 56px 0 64px; text-align: center; }

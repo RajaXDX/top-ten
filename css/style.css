@@ -22,6 +22,13 @@
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
+
+/*
+  ⚠️ ضرورية لا احتياطية: قاعدة المتصفح `[hidden] { display: none }` تأتي من
+  ورقة الوكيل، فأي قاعدة لنا تضبط `display` تتغلّب عليها — و`.resume`
+  و`.link-btn` تفعلان. النتيجة: عنصر مكتوب عليه `hidden` يظهر للاعب.
+*/
+[hidden] { display: none !important; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
 }
@@ -183,12 +190,29 @@ input:focus, select:focus {
 .slot.is-found { background: var(--surface); }
 .slot.is-found .srank { background: color-mix(in srgb, var(--brand) 20%, transparent); color: var(--brand); }
 .slot.is-found .spts { color: var(--success); }
-.slot.by-0 { border-inline-start: 3px solid var(--p1); }
-.slot.by-1 { border-inline-start: 3px solid var(--p2); }
+
+/*
+  ⚠️ اللون بـ«أنا / هو» لا برقم المقعد. المقعد 0 عند المضيف هو نفسه المقعد
+  0 عند الضيف، فلو لوّنّا بالرقم لرأى كلٌّ منهما إجاباته بلون الآخر تماماً.
+*/
+.slot.by-me { border-inline-start: 3px solid var(--p1); }
+.slot.by-them { border-inline-start: 3px solid var(--p2); }
 .slot.flash { transform: scale(1.015); border-color: var(--success); }
 
 .answer { display: grid; grid-template-columns: 1fr auto auto; gap: 9px; }
 .answer input { font-size: 16px; }   /* ⚠️ 16px يمنع iOS من تكبير الصفحة عند التركيز */
+.answer input:disabled, .primary:disabled, .ghost:disabled { opacity: .45; cursor: not-allowed; }
+.primary:disabled:hover, .ghost:disabled:hover { filter: none; background: transparent; }
+
+.turn-banner {
+  margin: 0 0 16px; padding: 11px 15px; border-radius: 12px;
+  background: var(--bg-2); border: 1px solid var(--line-soft);
+  font-size: 14.5px; font-weight: 700; color: var(--muted); text-align: center;
+}
+.turn-banner.mine {
+  background: color-mix(in srgb, var(--brand) 12%, var(--bg-2));
+  border-color: var(--brand); color: var(--text);
+}
 
 /* ------------------------------ النهاية ------------------------------ */
 
@@ -237,6 +261,103 @@ input:focus, select:focus {
 .toast.out { opacity: 0; transition: opacity .3s; }
 @keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 
+/* ------------------------- الرئيسية والروم ------------------------- */
+
+.field { display: grid; gap: 6px; margin-bottom: 15px; font-size: 13.5px; font-weight: 600; color: var(--muted); }
+.field small { font-weight: 400; }
+
+.home-actions { display: grid; gap: 10px; margin-bottom: 26px; }
+.home-rules {
+  padding: 15px 17px; margin-bottom: 4px;
+  background: var(--bg-2); border: 1px solid var(--line-soft); border-radius: var(--radius);
+}
+.home-foot { display: flex; align-items: center; justify-content: center; gap: 6px; flex-wrap: wrap; }
+.home-foot .link-btn { margin-inline: 0; }
+
+.back-btn {
+  min-height: 44px; padding: 10px 4px; margin-bottom: 4px;
+  background: none; border: 0; color: var(--muted);
+  font-family: inherit; font-size: 13.5px; cursor: pointer;
+}
+.back-btn:hover { color: var(--brand); }
+
+.screen-title { margin: 6px 0 4px; font-size: clamp(22px, 6vw, 28px); font-weight: 800; }
+.screen-sub { margin: 0 0 22px; color: var(--muted); font-size: 14px; }
+
+.hint { margin: 10px 0 0; text-align: center; font-size: 13px; color: var(--muted); }
+
+.link-btn.danger { color: color-mix(in srgb, var(--error) 80%, var(--muted)); }
+.link-btn.danger:hover { color: var(--error); }
+.primary.sm, .ghost.sm { min-height: 40px; padding: 0 14px; font-size: 13.5px; }
+
+/* ⚠️ الكود يُنسخ بالعين ويُنطق بالصوت — تباعد الحروف يمنع قراءة B كـ8 */
+.code-input {
+  text-align: center; letter-spacing: .32em; text-transform: uppercase;
+  font-size: 26px; font-weight: 800; padding-block: 16px;
+}
+
+.resume {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  padding: 13px 16px; margin-bottom: 20px;
+  background: color-mix(in srgb, var(--brand) 9%, var(--bg-2));
+  border: 1px solid var(--line); border-radius: 13px; font-size: 14px;
+}
+.resume-code { display: block; color: var(--brand); font-weight: 800; letter-spacing: .16em; }
+.resume-actions { display: flex; gap: 8px; }
+
+.code-box {
+  padding: 18px; margin-bottom: 20px; text-align: center;
+  background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--radius);
+}
+.code-label { display: block; font-size: 12.5px; color: var(--muted); }
+.code-value {
+  display: block; margin: 4px 0 14px;
+  font-size: clamp(30px, 9vw, 42px); font-weight: 800; letter-spacing: .18em;
+  background: linear-gradient(135deg, var(--brand), #FFC46B);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.code-actions { display: flex; gap: 9px; justify-content: center; flex-wrap: wrap; }
+
+.lobby-players { display: grid; gap: 9px; margin-bottom: 22px; }
+.lp {
+  display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 10px 14px;
+  background: var(--bg-2); border: 1px solid var(--line-soft); border-radius: 13px;
+}
+.lp.is-you { border-color: var(--line); }
+.lp-avatar {
+  display: grid; place-items: center; flex: none; width: 34px; height: 34px;
+  border-radius: 50%; background: color-mix(in srgb, var(--brand) 18%, transparent);
+  color: var(--brand); font-weight: 800;
+}
+.lp-name { flex: 1; font-size: 15px; font-weight: 600; }
+.lp-name b { color: var(--muted); font-weight: 600; }
+.lp-tag {
+  padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 700;
+  background: color-mix(in srgb, var(--text) 8%, transparent); color: var(--muted);
+}
+.lp-empty { border-style: dashed; }
+.lp-empty .lp-avatar { background: color-mix(in srgb, var(--text) 6%, transparent); color: var(--muted); }
+.lp-empty .lp-name { color: var(--muted); font-weight: 400; }
+
+.guest-wait { padding: 26px 0; text-align: center; color: var(--muted); }
+.guest-wait p { margin: 12px 0 0; font-size: 14.5px; }
+.dots { display: inline-flex; gap: 6px; }
+.dots i { width: 8px; height: 8px; border-radius: 50%; background: var(--brand); animation: blink 1.2s infinite; }
+.dots i:nth-child(2) { animation-delay: .2s; }
+.dots i:nth-child(3) { animation-delay: .4s; }
+@keyframes blink { 0%, 60%, 100% { opacity: .25; } 30% { opacity: 1; } }
+
+/* ⚠️ ثابتة أعلى الشاشة لا داخل التدفّق: انقطاع الخصم يجب أن يُرى فوراً
+   ولو كان اللاعب مُمرِّراً في أسفل القائمة. */
+.net-badge {
+  position: fixed; inset-block-start: 10px; inset-inline: 12px; z-index: 90;
+  margin-inline: auto; width: fit-content; max-width: calc(100% - 24px);
+  padding: 8px 15px; border-radius: 999px;
+  background: color-mix(in srgb, var(--warn) 16%, var(--surface));
+  border: 1px solid var(--warn); color: var(--warn);
+  font-size: 13px; font-weight: 700;
+}
+
 /* ------------------------------ الجوال ------------------------------ */
 
 @media (max-width: 560px) {
@@ -248,4 +369,6 @@ input:focus, select:focus {
   .answer .primary, .answer .ghost { width: 100%; }
   .end-actions { grid-template-columns: 1fr; }
   .toasts { inset-inline: 12px; }
+  .resume { flex-direction: column; align-items: stretch; }
+  .resume-actions { display: grid; grid-template-columns: 1fr 1fr; }
 }

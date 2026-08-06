@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="توب تن">
+  <!--
+    الرقم مرسوم أشكالاً هندسية لا نصّاً: أيقونة التطبيق تُرسم على أجهزة
+    لا تملك خطّ Cairo، والنصّ يسقط عندها لخطّ آخر فيتغيّر شكل الأيقونة.
+  -->
+  <defs>
+    <linearGradient id="amber" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FF8A3D"/>
+      <stop offset="1" stop-color="#FFC46B"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="512" height="512" rx="112" fill="#0D0D0F"/>
+  <rect x="8" y="8" width="496" height="496" rx="106" fill="none"
+        stroke="url(#amber)" stroke-opacity=".28" stroke-width="6"/>
+
+  <!-- ١ -->
+  <path d="M150 148 L196 128 L196 384" fill="none" stroke="url(#amber)"
+        stroke-width="46" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- ٠ -->
+  <rect x="264" y="128" width="118" height="256" rx="59" fill="none"
+        stroke="url(#amber)" stroke-width="46"/>
+</svg>

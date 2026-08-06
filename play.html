@@ -3,64 +3,133 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>العب توب تن</title>
+<title>توب تن — العب</title>
 
-<meta name="description" content="توب تن: لعبة عربية بين شخصين — اذكر ما تقدر من قائمة العشرة، والمركز المتأخّر يعطي نقاطاً أكثر.">
+<meta name="description" content="توب تن: لعبة عربية بين شخصين، كل واحد من جواله. اذكر ما تقدر من قائمة العشرة، والمركز المتأخّر يعطي نقاطاً أكثر.">
 <meta name="theme-color" content="#0D0D0F">
 
 <meta property="og:type" content="website">
 <meta property="og:title" content="توب تن — لعبة قوائم العشرة">
-<meta property="og:description" content="دور دور بين شخصين: اذكر ما تقدر من القائمة، والمركز 10 يعطي 10 نقاط.">
+<meta property="og:description" content="أنشئ روم، أرسل الكود لصاحبك، والعبوا كل واحد من جواله.">
+
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="توب تن">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="css/style.css?v=4">
+<link rel="stylesheet" href="css/style.css?v=5">
 </head>
 <body>
 
 <div class="glow glow-a" aria-hidden="true"></div>
 <div class="glow glow-b" aria-hidden="true"></div>
 
-<!-- ============================ الإعداد ============================ -->
-<section id="screen-setup" class="screen active">
+<!-- ============================ الرئيسية ============================ -->
+<section id="screen-home" class="screen active">
   <div class="wrap narrow">
-    <a class="back-home" href="./">← الصفحة التعريفية</a>
     <h1 class="logo">توب <span>تن</span></h1>
-    <p class="tag">دور دور بين شخصين — اذكر ما تقدر من قائمة العشرة</p>
+    <p class="tag">لعبة بين شخصين — كل واحد من جواله</p>
 
-    <div class="rules">
+    <div id="resumeBox" class="resume" hidden>
+      <div>
+        <strong>عندك جولة مفتوحة</strong>
+        <span id="resumeCode" class="resume-code"></span>
+      </div>
+      <div class="resume-actions">
+        <button id="resumeBtn" class="primary sm" type="button">ارجع لها</button>
+        <button id="resumeDropBtn" class="ghost sm" type="button">تجاهل</button>
+      </div>
+    </div>
+
+    <label class="field">اسمك
+      <input id="homeName" placeholder="اكتب اسمك" autocomplete="off" maxlength="20">
+    </label>
+
+    <div class="home-actions">
+      <button id="createBtn" class="primary big" type="button">أنشئ روم</button>
+      <button id="joinOpenBtn" class="ghost big" type="button">ادخل بكود</button>
+    </div>
+
+    <div class="home-rules">
       <div class="rule"><strong>10</strong> المركز العاشر يعطي <b>10 نقاط</b></div>
       <div class="rule"><strong>1</strong> والمركز الأول يعطي <b>نقطة واحدة</b></div>
       <p class="rules-why">المراكز المتأخّرة أصعب تذكّراً — فتستحقّ أكثر.</p>
     </div>
 
-    <form class="setup" onsubmit="return false">
-      <div class="row2">
-        <label>اللاعب الأول
-          <input id="p1Name" placeholder="الاسم" autocomplete="off">
-        </label>
-        <label>اللاعب الثاني
-          <input id="p2Name" placeholder="الاسم" autocomplete="off">
-        </label>
-      </div>
+    <div class="home-foot">
+      <a class="link-btn" href="./">كيف تلعب؟</a>
+      <button id="installBtn" class="link-btn" type="button" hidden>📲 ثبّت التطبيق</button>
+    </div>
+  </div>
+</section>
 
-      <label>السؤال <small>(<span id="qCount">—</span> سؤالاً)</small>
+<!-- ============================ الدخول بكود ============================ -->
+<section id="screen-join" class="screen">
+  <div class="wrap narrow">
+    <button class="back-btn" type="button" data-home>← رجوع</button>
+    <h2 class="screen-title">دخول بكود</h2>
+    <p class="screen-sub">اطلب الكود من صاحبك — ست خانات</p>
+
+    <label class="field">كود الروم
+      <input id="joinCode" class="code-input" placeholder="ABC123" autocomplete="off"
+             autocapitalize="characters" spellcheck="false" maxlength="6" inputmode="text">
+    </label>
+
+    <label class="field">اسمك
+      <input id="joinName" placeholder="اكتب اسمك" autocomplete="off" maxlength="20">
+    </label>
+
+    <button id="joinBtn" class="primary big" type="button">دخول</button>
+  </div>
+</section>
+
+<!-- ============================ الروم ============================ -->
+<section id="screen-lobby" class="screen">
+  <div class="wrap narrow">
+    <h2 class="screen-title">الروم جاهزة</h2>
+
+    <div class="code-box">
+      <span class="code-label">كود الروم</span>
+      <strong id="lobbyCode" class="code-value">——————</strong>
+      <div class="code-actions">
+        <button id="copyCodeBtn" class="ghost sm" type="button">📋 نسخ الرابط</button>
+        <button id="shareBtn" class="ghost sm" type="button">📤 مشاركة</button>
+      </div>
+    </div>
+
+    <div id="lobbyPlayers" class="lobby-players"></div>
+
+    <div id="hostSetup" hidden>
+      <label class="field">القائمة <small>(<span id="qCount">—</span> قائمة)</small>
         <select id="questionPick"></select>
       </label>
 
-      <label>وقت الدور
+      <label class="field">وقت الدور
         <select id="turnSeconds">
           <option value="0">بلا وقت</option>
           <option value="15">15 ثانية</option>
           <option value="30" selected>30 ثانية</option>
           <option value="45">45 ثانية</option>
+          <option value="60">60 ثانية</option>
         </select>
       </label>
 
-      <button id="startBtn" class="primary big" type="button">ابدأ اللعب</button>
-    </form>
+      <button id="startBtn" class="primary big" type="button">ابدأ الجولة</button>
+      <p id="startHint" class="hint"></p>
+    </div>
+
+    <div id="guestWait" class="guest-wait" hidden>
+      <span class="dots"><i></i><i></i><i></i></span>
+      <p>بانتظار المضيف يختار القائمة ويبدأ…</p>
+    </div>
+
+    <button class="link-btn danger" type="button" data-leave>اخرج من الروم</button>
   </div>
 </section>
 
@@ -79,16 +148,18 @@
     </header>
 
     <div id="scoreboard" class="scoreboard"></div>
+    <p id="turnBanner" class="turn-banner"></p>
 
     <ol id="slots" class="slots"></ol>
 
     <form id="answerForm" class="answer">
-      <input id="answerInput" placeholder="اكتب إجابتك…" autocomplete="off" autocapitalize="off" spellcheck="false">
-      <button class="primary" type="submit">جاوب</button>
+      <input id="answerInput" placeholder="اكتب إجابتك…" autocomplete="off"
+             autocapitalize="off" spellcheck="false" maxlength="40">
+      <button id="answerBtn" class="primary" type="submit">جاوب</button>
       <button id="skipBtn" class="ghost" type="button">مرّر</button>
     </form>
 
-    <button id="endRoundBtn" class="link-btn" type="button">إنهاء الجولة</button>
+    <button class="link-btn danger" type="button" data-leave>الخروج من الجولة</button>
   </div>
 </section>
 
@@ -101,15 +172,20 @@
     <div id="endMissed" class="end-missed"></div>
     <div class="end-actions">
       <button id="againBtn" class="primary" type="button">جولة ثانية</button>
-      <button id="setupBtn" class="ghost" type="button">تغيير الإعدادات</button>
+      <button class="ghost" type="button" data-leave>الرئيسية</button>
     </div>
+    <p id="endWait" class="hint" hidden>بانتظار المضيف يبدأ جولة ثانية…</p>
   </div>
 </section>
 
 <footer class="foot">© <span id="year">2026</span> Next Level</footer>
 <div id="toasts" class="toasts" aria-live="polite"></div>
+<div id="netBadge" class="net-badge" hidden></div>
 
-<script src="js/matching.js?v=4"></script>
-<script src="js/game.js?v=4"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="js/supabase-config.js?v=5"></script>
+<script src="js/matching.js?v=5"></script>
+<script src="js/net.js?v=5"></script>
+<script src="js/game.js?v=5"></script>
 </body>
 </html>
